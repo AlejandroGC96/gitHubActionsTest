@@ -1,5 +1,0 @@
----
-"pruebas": minor
----
-
-Hola

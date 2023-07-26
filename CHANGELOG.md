@@ -1,5 +1,11 @@
 # pruebas
 
+## 2.1.0
+
+### Minor Changes
+
+- 16227da: Hola
+
 ## 2.0.0
 
 ### Major Changes
