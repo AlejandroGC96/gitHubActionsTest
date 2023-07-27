@@ -28,4 +28,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Block PR
-        run: changeset status --since=develop
+        run: npx changeset status --since=develop
