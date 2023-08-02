@@ -33,8 +33,7 @@ jobs:
         id: cache-primes
         with:
           path: node_modules
-          key: modules
-
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies # (3)
         if: ${{steps.pnpm-cache.outputs.cache-hit != 'true'}}
         run: npm ci

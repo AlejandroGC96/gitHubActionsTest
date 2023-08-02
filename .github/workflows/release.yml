@@ -1,33 +1,35 @@
-# name: Release
+name: Release
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+    branches:
+      - develop
 
-# on:
-#   push:
-#     branches:
-#       - develop
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-# concurrency: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install a specific dependency
+        run: pnpm install changeset --no-save
 
-# jobs:
-#   release:
-#     name: Release
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Repo
-#         uses: actions/checkout@v3
-#         with:
-#           ref: develop
-
-#       - name: Setup Node.js 16
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: 16
-
-#       - name: Install Dependencies
-#         run: yarn
-
-#       - name: Create Release Pull Request
-#         uses: changesets/action@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       - name: Block PR
-run: npx changeset status --since=develop
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Block PR
+        run: pnpm changeset status --since=main
