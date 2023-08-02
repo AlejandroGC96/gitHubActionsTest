@@ -25,14 +25,11 @@ jobs:
           node-version: lts/*
           cache: pnpm
 
-      - name: Install a specific dependency
-        run: pnpm install changeset
-
       - name: Create temporary package.json
         run: echo "{}" > package.json
 
       - name: Install a specific dependency
-        run: pnpm install package-name
+        run: pnpm install changeset
 
       - name: Changeset create PR
         uses: changesets/action@v1
