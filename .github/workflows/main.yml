@@ -35,5 +35,5 @@ jobs:
           key: modules
 
       - name: Install dependencies # (3)
-        if: steps.cache-primes.outputs.cache-hit != 'true'
+        if: ${{steps.cache-primes.outputs.cache-hit != 'true'}}
         run: pnpm ci
