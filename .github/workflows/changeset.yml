@@ -24,9 +24,20 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
+
       - name: Install a specific dependency
         run: pnpm install changeset
+
+      - name: Create temporary package.json
+        run: echo "{}" > package.json
+
+      - name: Install a specific dependency
+        run: pnpm install package-name
+
       - name: Changeset create PR
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup temporary package.json
+        run: rm package.json
