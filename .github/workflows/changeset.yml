@@ -1,0 +1,32 @@
+name: Changeset Version
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "develop"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - name: Install a specific dependency
+        run: pnpm install changeset --no-save
+      - name: Changeset create PR
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
