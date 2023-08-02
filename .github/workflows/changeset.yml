@@ -25,7 +25,7 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - name: Install a specific dependency
-        run: pnpm install changeset --no-save
+        run: pnpm install changeset
       - name: Changeset create PR
         uses: changesets/action@v1
         env:
